@@ -80,9 +80,20 @@ public class CategoriaRepositorio : ICategoriaRepositorio
         return categoriaDTO;
     }
 
-    public Task<IEnumerable<CategoriaDTO>> GetDropDownCategorias(int categoriaId)
+    public async Task<IEnumerable<DropDownCategoriaDTO>> GetDropDownCategorias()
     {
-        throw new NotImplementedException();
+        try
+        {
+            IEnumerable<DropDownCategoriaDTO> DropDownCategoriaDTO = _mapper.Map<
+                IEnumerable<Categoria>,
+                IEnumerable<DropDownCategoriaDTO>
+            >(await _dbContext.Categorias.ToListAsync());
+            return DropDownCategoriaDTO;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
 
     public async Task<IEnumerable<CategoriaDTO>> GettAllCategorias()

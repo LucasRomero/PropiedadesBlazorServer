@@ -11,5 +11,5 @@ public interface ICategoriaRepositorio
     public Task<CategoriaDTO> ActualizarCategoria(CategoriaDTO categoria);
     public Task<CategoriaDTO> NombreCategoriaExiste(string Nombre);
     public Task<int> BorrarCategoria(int categoriaId);
-    public Task<IEnumerable<CategoriaDTO>> GetDropDownCategorias(int categoriaId);
+    public Task<IEnumerable<DropDownCategoriaDTO>> GetDropDownCategorias();
 }

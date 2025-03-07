@@ -10,5 +10,7 @@ public class PerfilMapa : Profile
     {
         CreateMap<CategoriaDTO, Categoria>().ReverseMap();
         CreateMap<PropiedadDTO, Propiedad>().ReverseMap();
+        CreateMap<DropDownCategoriaDTO, Categoria>().ReverseMap();
+        CreateMap<ImagenPropiedadDTO, ImagenPropiedad>().ReverseMap();
     }
 }

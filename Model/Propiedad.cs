@@ -38,4 +38,6 @@ public class Propiedad
     [ForeignKey("CategoriaId")]
     public int CategoriaId { get; set; }
     public virtual Categoria Categoria { get; set; }
+
+    public virtual ICollection<ImagenePropiedad> imagenPropiedad { get; set; }
 }

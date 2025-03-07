@@ -13,9 +13,6 @@
             <div class="col-7">
                 <h4 class="card-title text-dark">Nueva Categoria</h4>
             </div>
-            <div class="col-3 offset-2">
-                <NavLink href="crear-categoria" class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i>Nueva Categoria</NavLink>
-            </div>
         </div>
     </div>
     <div class="card-body">
@@ -86,6 +83,6 @@
 
         await CategoriaRepositorio.CrearCategoria(categoriaDTO);
         NavigationManager.NavigateTo("categorias");
-        toastServicio.ShowSuccess("Producto fue agregado con Exito");
+        toastServicio.ShowSuccess("Categoria fue agregado con Exito");
     }
 }

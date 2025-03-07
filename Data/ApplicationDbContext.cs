@@ -9,4 +9,5 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 {
     public DbSet<Categoria> Categorias { get; set; }
     public DbSet<Propiedad> Propiedades { get; set; }
+    public DbSet<ImagenPropiedad> ImagenesPropiedad { get; set; }
 }

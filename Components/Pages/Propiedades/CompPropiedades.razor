@@ -1,21 +1,21 @@
-﻿@page "/categorias"
+﻿@page "/propiedades"
 
 @using Model.DTO
 @using Repositorio.IRepositorio
-@inject ICategoriaRepositorio CategoriaRepositorio
+@inject IPropiedadRepositorio PropiedadRepositorio
 @inject IToastService toastServicio;
 @inject SweetAlertService Swal;
 
-<h1 class="text-center">Categorias</h1>
+<h1 class="text-center">Propiedades</h1>
 
 <div class="card">
     <div class="card-header">
         <div class="row">
             <div class="col-7">
-                <h4 class="card-title text-dark">Lista de Categorias</h4>
+                <h4 class="card-title text-dark">Lista de Propiedades</h4>
             </div>
             <div class="col-3 offset-2">
-                <NavLink href="crear-categoria" class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i>Nueva Categoria</NavLink>
+                <NavLink href="crear-propiedad" class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i>Nueva Propiedad</NavLink>
             </div>
         </div>
     </div>
@@ -26,24 +26,35 @@
                     <th>Id</th>
                     <th>Nombre</th>
                     <th>Descripcion</th>
+                    <th>Area</th>
+                    <th>Habitaciones</th>
+                    <th>Baños</th>
+                    <th>Parqueadero</th>
+                    <th>Precio</th>
+                    <th>Activo</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                @if (categorias.Count() > 0)
+                @if (propiedades.Count() > 0)
                 {
-                    @foreach(var categoria in categorias)
+                    @foreach (var propiedad in propiedades)
                     {
                         <tr>
-                            <td>@categoria.Id</td>
-                            <td>@categoria.Nombre</td>
-                            <td>@categoria.Descripcion</td>
+                            <td>@propiedad.Id</td>
+                            <td>@propiedad.Nombre</td>
+                            <td>@propiedad.Descripcion</td>
+                            <td>@propiedad.Area</td>
+                            <td>@propiedad.Banios</td>
+                            <td>@propiedad.Parqueadero</td>
+                            <td>@propiedad.Precio</td>
+                            <td>@propiedad.Activo</td>
                             <td>
-                                <NavLink href="@($"editar-categoria/{categoria.Id}")" class="btn btn-success">
+                                <NavLink href="@($"editar-propiedad/{propiedad.Id}")" class="btn btn-success">
                                     <i class="bi bi-gear-fill"></i>
                                     Editar
                                 </NavLink>
-                                <button class="btn btn-danger" @onclick="() => ManejadorOnBorrar(categoria)">
+                                <button class="btn btn-danger" @onclick="() => ManejadorOnBorrar(propiedad)">
                                     <i class="bi bi-trash-fill"></i>
                                     Borrar
                                 </button>
@@ -69,32 +80,32 @@
 
 
 @code {
-    private IEnumerable<CategoriaDTO> categorias { get; set; } = new List<CategoriaDTO>();
+    private IEnumerable<PropiedadDTO> propiedades { get; set; } = new List<PropiedadDTO>();
 
     protected override async Task OnInitializedAsync()
     {
-        categorias = await CategoriaRepositorio.GettAllCategorias();
+        propiedades = await PropiedadRepositorio.GettAllPropiedades();
     }
 
-    private async Task ManejadorOnBorrar(CategoriaDTO categoria)
+    private async Task ManejadorOnBorrar(PropiedadDTO propiedad)
     {
 
 
         SweetAlertResult result = await Swal.FireAsync(new SweetAlertOptions
             {
                 Title = "Esta seguro?",
-                Text = $"Eliminar Categoria: {categoria.Nombre}",
+                Text = $"Eliminar Propiedad: {propiedad.Nombre}",
                 Icon = SweetAlertIcon.Warning,
                 ShowCancelButton = true,
                 ConfirmButtonText = "Si, eliminar",
                 CancelButtonText = "No, volver",
             });
 
-        if(result.IsConfirmed)
+        if (result.IsConfirmed)
         {
-            await CategoriaRepositorio.BorrarCategoria(categoria.Id);
-            toastServicio.ShowSuccess("Categoria fue eliminado");
-            categorias = await CategoriaRepositorio.GettAllCategorias();
+            await PropiedadRepositorio.BorrarPropiedad(propiedad.Id);
+            toastServicio.ShowSuccess("Propiedad fue eliminado");
+            propiedades = await PropiedadRepositorio.GettAllPropiedades();
         }
     }
 
