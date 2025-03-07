@@ -1,0 +1,112 @@
+﻿@page "/editar-categoria/{id:int}"
+
+@using Model.DTO
+@using Repositorio.IRepositorio
+@inject ICategoriaRepositorio CategoriaRepositorio
+@inject NavigationManager NavigationManager
+
+<h1 class="text-center">Editar Categoria</h1>
+
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-7">
+                <h4 class="card-title text-dark">Nueva Categoria</h4>
+            </div>
+            <div class="col-3 offset-2">
+                <NavLink href="crear-categoria" class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i>Nueva Categoria</NavLink>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <EditForm Model="categoriaDTO" OnValidSubmit="@(() => ManejadorEidtarCategoria())">
+            <DataAnnotationsValidator></DataAnnotationsValidator>
+            <ValidationSummary></ValidationSummary>
+
+            <div class="container">
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-2">
+                            <label for="Nombre">Nombre:</label>
+                        </div>
+                        <div class="col-6">
+                            <InputText id="Nombre" class="form-control" @bind-Value="categoriaDTO.Nombre" placeholder="ingrese Nombre"></InputText>
+                            <ValidationMessage For="@(() => categoriaDTO.Nombre)"></ValidationMessage>
+                        </div>
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-2">
+                            <label for="Nombre">Descripcion:</label>
+                        </div>
+                        <div class="col-6">
+                            <InputText id="Nombre" class="form-control" @bind-Value="categoriaDTO.Descripcion" placeholder="ingrese Descripcion"></InputText>
+                            <ValidationMessage For="@(() => categoriaDTO.Descripcion)"></ValidationMessage>
+                        </div>
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-gear-fill"></i>
+                                Guardar
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <NavLink href="categorias" class="btn btn-secondary"><i class="bi bi-arrow-left-circle-fill"></i>Volver</NavLink>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    private CategoriaDTO categoriaDTO { get; set; } = new CategoriaDTO();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(Id is not null)
+        {
+            categoriaDTO = await CategoriaRepositorio.GetCategoriaById(Id.Value);
+        }
+
+    }
+
+
+    private async Task ManejadorEidtarCategoria()
+    {
+        try
+        {
+            var nombreCategoria = await CategoriaRepositorio.NombreCategoriaExiste(categoriaDTO.Nombre);
+
+            if (nombreCategoria is not null)
+            {
+                return;
+            }
+
+            await CategoriaRepositorio.ActualizarCategoria(categoriaDTO);
+            NavigationManager.NavigateTo("categorias");
+        }
+        catch (Exception)
+        {
+            
+            throw;
+        }
+        
+    }
+}

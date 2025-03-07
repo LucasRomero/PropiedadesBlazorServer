@@ -14,4 +14,7 @@ public class Categoria
     [Required]
     public DateTime FechaCreacion { get; set; } = DateTime.Now;
     public DateTime FechaModificacion { get; set; }
+
+    // Relacion con propiedad
+    public virtual ICollection<Propiedad> Propiedades { get; set; }
 }
